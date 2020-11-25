@@ -21,7 +21,7 @@ def authTwitter():
 # csvfile에 수집했던 data 저장 
 def csvfile(result):
     # r = 読み取り、 w = 上書き、　a = 追記
-    with open('./tweet_data/kyo-to/kyotopi_1101_1110.csv','w',encoding="utf-8") as f:
+    with open('./data/test.csv','w',encoding="utf-8") as f:
         writer = csv.writer(f)
         for i in result:
             writer.writerow(i)
@@ -29,30 +29,26 @@ def csvfile(result):
 # twitter로부터 data수집 
 def getTweetbySearch():
     #result = np.array([])
-    result = [[0] * 6 for i in range(6000)]
+    result = [[i] * 2 for i in range(6000)]
     api = authTwitter()
 
     #sratchStr = tweet_keyword + 기간 + ' exclude:retweets'
     #기간은 최근 1주일 밖에 못함
-    sratchStr = "キョウトピ since:2020-11-01 until:2020-11-11 exclude:retweets"
+    sratchStr = "BTS since:2020-11-25 until:2020-11-26 exclude:retweets"
     print('検索文字列 : '+ sratchStr)
 
     tweets = tweepy.Cursor(api.search, 
                            q = sratchStr,
                            include_entities = True, 
                            tweet_mode = 'extended', 
-                           lang = 'ja').items()
+                           lang = 'ko').items()
 
     for i,tweet in enumerate(tweets):
-        if i > len(result):
-            exit
+        if i > 1000:
+            break
         else:
-            result[i][0] = tweet.id
-            result[i][1] = tweet.user.screen_name
-            result[i][2] = tweet.created_at
-            result[i][3] = tweet.full_text
-            result[i][4] = tweet.favorite_count
-            result[i][5] = tweet.retweet_count
+            result[i][0] = tweet.user.screen_name
+            result[i][1] = tweet.full_text
     csvfile(result)
 
 getTweetbySearch()
