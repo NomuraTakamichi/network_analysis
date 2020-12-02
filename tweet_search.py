@@ -21,7 +21,7 @@ def authTwitter():
 # csvfile에 수집했던 data 저장 
 def csvfile(result):
     # r = 読み取り、 w = 上書き、　a = 追記
-    with open('./data/test.csv','w',encoding="utf-8") as f:
+    with open('./data/인간수업.csv','w',encoding="utf-8") as f:
         writer = csv.writer(f)
         for i in result:
             writer.writerow(i)
@@ -34,7 +34,7 @@ def getTweetbySearch():
 
     #sratchStr = tweet_keyword + 기간 + ' exclude:retweets'
     #기간은 최근 1주일 밖에 못함
-    sratchStr = "BTS since:2020-11-25 until:2020-11-26 exclude:retweets"
+    sratchStr = "인간수업 since:2020-11-22 until:2020-11-29 exclude:retweets"
     print('検索文字列 : '+ sratchStr)
 
     tweets = tweepy.Cursor(api.search, 
